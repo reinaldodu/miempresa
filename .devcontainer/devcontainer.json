@@ -1,0 +1,77 @@
+{
+  "name": "Laravel DevContainer",
+  "dockerComposeFile": "../docker-compose.yml",
+  "service": "app",
+  "workspaceFolder": "/var/www",
+
+  "remoteUser": "vscode",
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "onecentlin.laravel-blade",
+        "onecentlin.laravel5-snippets",
+        "pkief.material-icon-theme",
+        "christian-kohler.path-intellisense",
+        "xdebug.php-debug",
+        "bmewburn.vscode-intelephense-client",
+        "bradlc.vscode-tailwindcss"
+      ],
+      "settings": {
+        "php.validate.executablePath": "/usr/local/bin/php",
+        "intelephense.environment.phpVersion": "8.2.0",
+        "intelephense.files.exclude": [
+          "**/vendor/**",
+          "**/.git/**",
+          "**/node_modules/**"
+        ],
+        "intelephense.telemetry.enabled": false,
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "bmewburn.vscode-intelephense-client",
+        "[blade]": {
+          "editor.defaultFormatter": "onecentlin.laravel-blade"
+        },
+        "files.associations": {
+          "*.blade.php": "blade"
+        },
+        "emmet.includeLanguages": {
+          "blade": "html"
+        },
+        "tailwindCSS.includeLanguages": {
+          "blade": "html"
+        }
+      }
+    }
+  },
+
+  "postCreateCommand": "composer install --no-scripts --no-plugins && npm install && cp -n .env.example .env && php artisan key:generate && php artisan storage:link",
+
+  "runServices": ["app", "nginx", "db", "phpmyadmin"],
+
+  "forwardPorts": [8000, 8080, 3306],
+
+  "portsAttributes": {
+    "8000": {
+      "label": "Laravel App",
+      "onAutoForward": "notify"
+    },
+    "8080": {
+      "label": "phpMyAdmin",
+      "onAutoForward": "silent"
+    },
+    "3306": {
+      "label": "MySQL",
+      "onAutoForward": "silent"
+    }
+  },
+
+  "shutdownAction": "stopCompose",
+
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "installZsh": true,
+      "configureZshAsDefaultShell": true,
+      "username": "vscode"
+    }
+  }
+}

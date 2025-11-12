@@ -13,9 +13,9 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         \App\Models\User::factory()->create([
-            'name' => 'Fabián Caballero',
-            'email' => 'fcaballero@email.co',
-            'password' => bcrypt('123456789')
+            'name' => 'Administrador del Sistema',
+            'email' => 'admin@email.co',
+            'password' => bcrypt('password')
         ]);
         \App\Models\Departamento::factory(10)->create();
 
